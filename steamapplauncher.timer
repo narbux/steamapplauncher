@@ -1,0 +1,10 @@
+[Unit]
+Description=Copy Steam gamelaunchers to Gnome environment
+
+[Timer]
+OnCalendar=daily
+Persistent=True
+Unit=steamapplauncher.service
+
+[Install]
+WantedBy=default.target
