@@ -10,7 +10,10 @@ the confined directory from Steam.
 
 ## Installation
 
-- Copy `steamapplauncher.py` to $HOME/.local/bin
-- Copy `steamapplauncher.service` and `steamapplauncher.timer` to
-`$HOME/.config/systemd/user/`
-- Execute `systemctl --user enable steamapplauncher.timer`
+To install, clone this directory and run the following commands:
+```bash
+mkdir -p $HOME/.local/bin $HOME/.config/systemd/user
+cp steamapplauncher.py $HOME/.local/bin
+cp steamapplauncher.service steamapplauncher.timer $HOME/.config/systemd/user
+systemctl --user enable steamapplauncher.timer
+```
