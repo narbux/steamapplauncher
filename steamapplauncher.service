@@ -1,0 +1,8 @@
+[Unit]
+Description=Copy Steam gamelaunchers to Gnome environment
+
+[Service]
+ExecStart=/usr/bin/python3 %h/.local/bin/steamapplauncher.py
+
+[Install]
+WantedBy=default.target
