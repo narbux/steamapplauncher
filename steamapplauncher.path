@@ -1,0 +1,9 @@
+[Unit]
+Description=Monitor steam app directory for changes
+
+[Path]
+PathModified=%h/.var/app/com.valvesoftware.Steam/.local/share/applications
+Unit=steamapplauncher.service
+
+[Install]
+WantedBy=default.target
