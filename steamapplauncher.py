@@ -79,8 +79,12 @@ def rewrite_desktop_file() -> None:
 
         if (STEAM_ICON_DIR / f"256x256/apps/steam_icon_{app_id_number}.png").exists():
             icon_uri = STEAM_ICON_DIR / f"256x256/apps/steam_icon_{app_id_number}.png"
+        elif (STEAM_ICON_DIR / f"192x192/apps/steam_icon_{app_id_number}.png").exists():
+            icon_uri = STEAM_ICON_DIR / f"192x192/apps/steam_icon_{app_id_number}.png"
         elif (STEAM_ICON_DIR / f"128x128/apps/steam_icon_{app_id_number}.png").exists():
             icon_uri = STEAM_ICON_DIR / f"128x128/apps/steam_icon_{app_id_number}.png"
+        elif (STEAM_ICON_DIR / f"96x96/apps/steam_icon_{app_id_number}.png").exists():
+            icon_uri = STEAM_ICON_DIR / f"96x96/apps/steam_icon_{app_id_number}.png"
         elif (STEAM_ICON_DIR / f"64x64/apps/steam_icon_{app_id_number}.png").exists():
             icon_uri = STEAM_ICON_DIR / f"64x64/apps/steam_icon_{app_id_number}.png"
         else:
