@@ -49,7 +49,10 @@ def copy_files(source_dir: list[Path]) -> None:
     copied_files_counter = 0
     for file in source_dir:
         if file in existing_files:
-            logger.debug(f"{file.name} already in target directory")
+            logger.warning(f"{file.name} already in target directory, skipping")
+            continue
+        if file.is_dir():
+            logger.warning(f"<{file.name}> is a directory, skipping")
             continue
         logger.debug(f"Copying {file.name}")
         shutil.copyfile(file, APPLAUNCHER_DIR / file.name, follow_symlinks=False)
