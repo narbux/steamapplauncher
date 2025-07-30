@@ -7,11 +7,11 @@
 """
 
 import logging
-from logging.handlers import RotatingFileHandler
 import re
 import shutil
 import subprocess
 import sys
+from logging.handlers import RotatingFileHandler
 from pathlib import Path
 
 STEAM_FLATPAK_DIR = (
@@ -55,7 +55,9 @@ def copy_files(source_dir: list[Path]) -> None:
             logger.warning(f"<{file.name}> is a directory, skipping")
             continue
         logger.debug(f"Copying {file.name}")
-        shutil.copyfile(file, APPLAUNCHER_DIR / file.name, follow_symlinks=False)
+        shutil.copyfile(
+            file, APPLAUNCHER_DIR / file.name, follow_symlinks=False
+        )
         STEAM_FILES.append(Path(APPLAUNCHER_DIR / file.name))
         copied_files_counter += 1
     logger.info(f"Copied {copied_files_counter} files")
@@ -68,30 +70,56 @@ def rewrite_desktop_file() -> None:
             lines = source.readlines()
         with open(file, "w") as destination:
             for line in lines:
-                destination.write(re.sub(r"Exec=steam steam", FLATPAK_EXEC, line))
+                destination.write(
+                    re.sub(r"Exec=steam steam", FLATPAK_EXEC, line)
+                )
 
         logger.debug(f"Rewriting icon line in {file.name}")
-        app_id_number = 0
+        app_id_number = ""
         with open(file, "r") as source:
             lines = source.readlines()
 
         for line in lines:
             if line.startswith("Icon="):
                 app_id_number = line.split("_")[-1].strip()
-                logger.debug(f"Found app_id_number for {file.name}: {app_id_number}")
+                logger.debug(
+                    f"Found app_id_number for {file.name}: {app_id_number}"
+                )
 
-        if (STEAM_ICON_DIR / f"256x256/apps/steam_icon_{app_id_number}.png").exists():
-            icon_uri = STEAM_ICON_DIR / f"256x256/apps/steam_icon_{app_id_number}.png"
-        elif (STEAM_ICON_DIR / f"192x192/apps/steam_icon_{app_id_number}.png").exists():
-            icon_uri = STEAM_ICON_DIR / f"192x192/apps/steam_icon_{app_id_number}.png"
-        elif (STEAM_ICON_DIR / f"128x128/apps/steam_icon_{app_id_number}.png").exists():
-            icon_uri = STEAM_ICON_DIR / f"128x128/apps/steam_icon_{app_id_number}.png"
-        elif (STEAM_ICON_DIR / f"96x96/apps/steam_icon_{app_id_number}.png").exists():
-            icon_uri = STEAM_ICON_DIR / f"96x96/apps/steam_icon_{app_id_number}.png"
-        elif (STEAM_ICON_DIR / f"64x64/apps/steam_icon_{app_id_number}.png").exists():
-            icon_uri = STEAM_ICON_DIR / f"64x64/apps/steam_icon_{app_id_number}.png"
+        if (
+            STEAM_ICON_DIR / f"256x256/apps/steam_icon_{app_id_number}.png"
+        ).exists():
+            icon_uri = (
+                STEAM_ICON_DIR / f"256x256/apps/steam_icon_{app_id_number}.png"
+            )
+        elif (
+            STEAM_ICON_DIR / f"192x192/apps/steam_icon_{app_id_number}.png"
+        ).exists():
+            icon_uri = (
+                STEAM_ICON_DIR / f"192x192/apps/steam_icon_{app_id_number}.png"
+            )
+        elif (
+            STEAM_ICON_DIR / f"128x128/apps/steam_icon_{app_id_number}.png"
+        ).exists():
+            icon_uri = (
+                STEAM_ICON_DIR / f"128x128/apps/steam_icon_{app_id_number}.png"
+            )
+        elif (
+            STEAM_ICON_DIR / f"96x96/apps/steam_icon_{app_id_number}.png"
+        ).exists():
+            icon_uri = (
+                STEAM_ICON_DIR / f"96x96/apps/steam_icon_{app_id_number}.png"
+            )
+        elif (
+            STEAM_ICON_DIR / f"64x64/apps/steam_icon_{app_id_number}.png"
+        ).exists():
+            icon_uri = (
+                STEAM_ICON_DIR / f"64x64/apps/steam_icon_{app_id_number}.png"
+            )
         else:
-            icon_uri = STEAM_ICON_DIR / f"32x32/apps/steam_icon_{app_id_number}.png"
+            icon_uri = (
+                STEAM_ICON_DIR / f"32x32/apps/steam_icon_{app_id_number}.png"
+            )
         logger.debug(f"{icon_uri=}")
 
         with open(file, "w") as destination:
@@ -112,7 +140,9 @@ def main() -> None:
     steam_dir = sanitize_directory_list()
     copy_files(steam_dir)
     rewrite_desktop_file()
-    logger.debug(f"Final target directory listing: {list(APPLAUNCHER_DIR.iterdir())}")
+    logger.debug(
+        f"Final target directory listing: {list(APPLAUNCHER_DIR.iterdir())}"
+    )
     reload_gtk_cache()
     logger.info("Application finished")
 
